@@ -37,16 +37,14 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     final state = this.state;
     emit(TasksState(allTasks: List.from(state.allTasks)..remove(event.task)));
   }
-  
+
   @override
   TasksState? fromJson(Map<String, dynamic> json) {
-    // TODO: implement fromJson
-    throw UnimplementedError();
+    return TasksState.fromMap(json);
   }
-  
+
   @override
   Map<String, dynamic>? toJson(TasksState state) {
-    // TODO: implement toJson
-    throw UnimplementedError();
+    return state.toMap();
   }
 }
