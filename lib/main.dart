@@ -6,9 +6,9 @@ import 'blocs/bloc_exports.dart';
 import 'screens/tabs_screen.dart';
 
 void main() {
-  runApp(
-    MyApp(appRouter: AppRouter()),
-  );
+  BlocOverrides.runZoned(() => runApp(
+        MyApp(appRouter: AppRouter()),
+      ));
 }
 
 class MyApp extends StatelessWidget {
