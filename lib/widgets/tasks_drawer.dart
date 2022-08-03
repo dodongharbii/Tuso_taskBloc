@@ -45,14 +45,21 @@ class TasksDrawer extends StatelessWidget {
               },
             ),
             const Divider(),
-            ListTile(
-              leading: const Icon(Icons.delete),
-              title: const Text('Recycle Bin'),
-              trailing: Text('${TestData.removedTasks.length}'),
-              onTap: () => Navigator.pushReplacementNamed(
-                context,
-                RecycleBinScreen.path,
-              ),
+            BlocBuilder<TasksBloc, TasksState>(
+              builder: (context, state) {
+                List<Task> removedTasks = state.removedTasks;
+                return Builder(builder: (context) {
+                  return ListTile(
+                    leading: const Icon(Icons.delete),
+                    title: const Text('Recycle Bin'),
+                    trailing: Text('${removedTasks.length}'),
+                    onTap: () => Navigator.pushReplacementNamed(
+                      context,
+                      RecycleBinScreen.path,
+                    ),
+                  );
+                });
+              },
             ),
             const Divider(),
             const Expanded(child: SizedBox()),
