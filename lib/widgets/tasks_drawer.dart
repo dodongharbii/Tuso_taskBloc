@@ -11,7 +11,10 @@ class TasksDrawer extends StatelessWidget {
 
   _switchToDarkTheme(BuildContext context, bool isDarkTheme) {
     if (isDarkTheme) {
-    } else {}
+      context.read<SwitchBloc>().add(SwitchOnEvent());
+    } else {
+      context.read<SwitchBloc>().add(SwitchOffEvent());
+    }
   }
 
   @override
@@ -63,21 +66,19 @@ class TasksDrawer extends StatelessWidget {
             ),
             const Divider(),
             const Expanded(child: SizedBox()),
-            ListTile(
-              leading: BlocBuilder<SwitchBloc, SwitchState>(
-                builder: (context, state) {
-                  return Switch(
-                    value: state.switchValue,
-                    onChanged: (newValue) => {
-                      newValue
-                          ? context.read<SwitchBloc>().add(SwitchOnEvent())
-                          : context.read<SwitchBloc>().add(SwitchOffEvent())
-                    },
-                  );
-                },
-              ),
-              title: const Text('Switch to Dark Theme'),
-              onTap: () => _switchToDarkTheme(context, !TestData.isDarkTheme),
+            BlocBuilder<SwitchBloc, SwitchState>(
+              builder: (context, state) {
+                return ListTile(
+                  leading: Switch(
+                      value: state.switchValue,
+                      onChanged: (newValue) =>
+                          _switchToDarkTheme(context, newValue)),
+                  title: state.switchValue
+                      ? Text('Switch to Light Theme')
+                      : Text('Switch to Dark Theme'),
+                  onTap: () => _switchToDarkTheme(context, !state.switchValue),
+                );
+              },
             ),
             const SizedBox(height: 10),
           ],
