@@ -33,7 +33,7 @@ class TasksDrawer extends StatelessWidget {
             ),
             BlocBuilder<TasksBloc, TasksState>(
               builder: (context, state) {
-                List<Task> tasksList = state.allTasks;
+                List<Task> tasksList = state.pendingTasks;
                 return ListTile(
                   leading: const Icon(Icons.folder_special),
                   title: const Text('My Tasks'),
