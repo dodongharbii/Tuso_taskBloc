@@ -9,6 +9,7 @@ part 'tasks_state.dart';
 class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   TasksBloc() : super(const TasksState()) {
     on<AddTask>(_onAddTask);
+    on<EditTask>(_onEditTask);
     on<UpdateTask>(_onUpdateTask);
     on<DeleteTask>(_onDeleteTask);
     on<RemoveTask>(_onRemoveTask);
@@ -23,6 +24,24 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
       pendingTasks: List.from(state.pendingTasks)..add(event.task),
       completedTasks: state.completedTasks,
       favoriteTasks: state.favoriteTasks,
+      removedTasks: state.removedTasks,
+    ));
+  }
+
+  void _onEditTask(EditTask event, Emitter<TasksState> emit) {
+    final state = this.state;
+    List<Task> favoriteTasks = state.favoriteTasks;
+    if (event.oldTask.isFavorite == true) {
+      favoriteTasks
+        ..remove(event.oldTask)
+        ..insert(0, event.newTask);
+    }
+    emit(TasksState(
+      pendingTasks: List.from(state.pendingTasks)
+        ..remove(event.oldTask)
+        ..insert(0, event.newTask),
+      completedTasks: state.completedTasks..remove(event.oldTask),
+      favoriteTasks: favoriteTasks,
       removedTasks: state.removedTasks,
     ));
   }
